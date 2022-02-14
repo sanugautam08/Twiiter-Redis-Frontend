@@ -32,4 +32,20 @@ const postTweet = async (token, tweet) => {
   }
 };
 
-export { getTweets, postTweet };
+const getUserActivity = async (token) => {
+  try {
+    const response = await fetch(`${API}/tweets/activity`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      mode: "cors",
+    });
+    return response.json();
+  } catch (e) {
+    return e;
+  }
+};
+
+export { getTweets, postTweet, getUserActivity };

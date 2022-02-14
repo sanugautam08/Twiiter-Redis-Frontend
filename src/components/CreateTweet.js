@@ -31,10 +31,7 @@ const CreateTweet = () => {
         console.log(res.data);
         setTweet("");
         setError("");
-        setTweets((tweets) => [
-          { tweet: res.data.tweet, tweetId: res.data.tweetId },
-          ...tweets,
-        ]);
+        setTweets((tweets) => [{ ...res.data }, ...tweets]);
       },
       (err) => {
         setError("Error: Try again!");

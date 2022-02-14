@@ -6,14 +6,32 @@ import {
   FaHeart,
   FaLeaf,
 } from "react-icons/fa";
-import { tweetContext } from "../App";
+import { tokenContext } from "../App";
+import { getUserActivity } from "../utils/tweetService";
 // import Trendstweet from "./Trendstweet";
 
-const Posts = () => {
-  const { tweets, setTweets } = useContext(tweetContext);
+const Activity = () => {
+  const [activityData, setActivityData] = useState([]);
+  const { token, setToken } = useContext(tokenContext);
+  useEffect(() => {
+    getUserActivity(token).then(
+      (res) => {
+        if (res.status) {
+          setActivityData(res.data);
+          console.log("activity", res.data);
+          return;
+        }
+        console.log("Error");
+      },
+      (error) => {
+        console.log("Error occured");
+      }
+    );
+  }, []);
+
   return (
     <div>
-      {tweets.map((i) => (
+      {activityData.map((i) => (
         <div key={i.tweetId}>
           <div className="postss">
             <div className="postss__first">
@@ -58,4 +76,4 @@ const Posts = () => {
   );
 };
 
-export default Posts;
+export default Activity;
