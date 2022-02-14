@@ -1,10 +1,42 @@
-import React from "react";
+import React, { useContext, useEffect, useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { Link } from "react-router-dom";
-// import Button from 'react-bootstrap/Button';
+import { Link, useNavigate } from "react-router-dom";
 import { Form, Button } from "react-bootstrap";
 import { FaTwitter } from "react-icons/fa";
+import { authContext, toggleMenu, tokenContext } from "../App";
+import { logIn } from "../utils";
+
 const Login = () => {
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+  const toggleHeader = useContext(toggleMenu);
+  const navigate = useNavigate();
+  const { token, setToken } = useContext(tokenContext);
+  const { loggedIn, setLoggedIn } = useContext(authContext);
+
+  // Handlers
+  const handleLogin = (e) => {
+    console.log("doin something. Okay!");
+    e.preventDefault();
+    console.log("doin somethin");
+    logIn({ username, password }).then(
+      (res) => {
+        if (!res.status) {
+          setError(res.message);
+          return;
+        }
+        localStorage.setItem("data", JSON.stringify(res.data));
+        setToken(res.data.token);
+        setLoggedIn(true);
+        navigate("/");
+      },
+      (err) => {
+        setError("Error: Try again!");
+      }
+    );
+  };
+
   return (
     <div className="profile-conatiner d-flex align-items-center justify-content-center">
       <div className="box-2 ">
@@ -15,7 +47,12 @@ const Login = () => {
         <Form>
           <Form.Group className="mb-3" controlId="formBasicEmail">
             <Form.Label>Email address</Form.Label>
-            <Form.Control type="email" placeholder="Enter email" />
+            <Form.Control
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+              type="email"
+              placeholder="Enter email"
+            />
             <Form.Text className="text-muted">
               We'll never share your email with anyone else.
             </Form.Text>
@@ -23,14 +60,20 @@ const Login = () => {
 
           <Form.Group className="mb-3" controlId="formBasicPassword">
             <Form.Label>Password</Form.Label>
-            <Form.Control type="password" placeholder="Password" />
+            <Form.Control
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              type="password"
+              placeholder="Password"
+            />
           </Form.Group>
+          {error ? <p>{error}</p> : null}
           <Form.Group className="mb-3" controlId="formBasicCheckbox">
             <Link to="/signup" className="card-link">
               Do you have an account? Register here
             </Link>
           </Form.Group>
-          <Button variant="primary" type="submit">
+          <Button variant="primary" type="button" onClick={handleLogin}>
             Submit
           </Button>
         </Form>

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import {
   FaTwitter,
   FaHome,
@@ -10,9 +10,21 @@ import {
   FaUserAlt,
   FaMehBlank,
 } from "react-icons/fa";
+import { authContext } from "../App";
+import { Link, useNavigate } from "react-router-dom";
+import { Button } from "react-bootstrap";
 
-import { Link } from "react-router-dom";
 const Sidebar = () => {
+  const { loggedIn, setLoggedIn } = useContext(authContext);
+  const navigate = useNavigate();
+  // handlers
+  const handleLogout = (e) => {
+    e.preventDefault();
+    localStorage.removeItem("data");
+    setLoggedIn(false);
+    navigate("/login");
+  };
+
   return (
     <div className="sidebar">
       <ul>
@@ -63,7 +75,15 @@ const Sidebar = () => {
           </a>
         </li>
         <div className="sidebar__Btn">
-          <a href="">Profile</a>
+          {loggedIn ? (
+            <>
+              <a onClick={handleLogout}>Logout</a>
+            </>
+          ) : (
+            <>
+              <a href="/login">Log in</a>
+            </>
+          )}
         </div>
       </ul>
     </div>
