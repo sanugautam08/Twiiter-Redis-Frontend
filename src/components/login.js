@@ -17,9 +17,7 @@ const Login = () => {
 
   // Handlers
   const handleLogin = (e) => {
-    console.log("doin something. Okay!");
     e.preventDefault();
-    console.log("doin somethin");
     logIn({ username, password }).then(
       (res) => {
         if (!res.status) {
@@ -46,16 +44,13 @@ const Login = () => {
         <h2 className="text-center">Login Page</h2>
         <Form>
           <Form.Group className="mb-3" controlId="formBasicEmail">
-            <Form.Label>Email address</Form.Label>
+            <Form.Label>Username</Form.Label>
             <Form.Control
               value={username}
               onChange={(e) => setUsername(e.target.value)}
-              type="email"
-              placeholder="Enter email"
+              type="text"
+              placeholder="username"
             />
-            <Form.Text className="text-muted">
-              We'll never share your email with anyone else.
-            </Form.Text>
           </Form.Group>
 
           <Form.Group className="mb-3" controlId="formBasicPassword">

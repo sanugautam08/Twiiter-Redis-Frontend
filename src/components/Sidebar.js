@@ -64,11 +64,15 @@ const Sidebar = () => {
             <FaClipboardList className="icons" /> Lists
           </a>
         </li>
-        <li>
-          <Link to="/profile">
-            <FaUserAlt className="icons" /> Profile
-          </Link>
-        </li>
+        {loggedIn ? (
+          <>
+            <li>
+              <Link to="/profile">
+                <FaUserAlt className="icons" /> Profile
+              </Link>
+            </li>
+          </>
+        ) : null}
         <li>
           <a href="">
             <FaMehBlank className="icons" /> More
