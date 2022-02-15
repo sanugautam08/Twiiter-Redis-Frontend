@@ -36,7 +36,7 @@ const Activity = () => {
           <div className="postss">
             <div className="postss__first">
               <div className="posts__first__img">
-                <img src="/images/profile2.jpeg" alt="profile img" />
+                <img src="/images/profile2.jpg" alt="profile img" />
               </div>
 
               <div className="posts__first__name">
